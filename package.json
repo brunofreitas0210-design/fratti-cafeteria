@@ -1,0 +1,11 @@
+{
+  "name": "fratti",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site estático da cafetaria Fratti",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "echo 'Site estático pronto. Nenhum build necessário. Rode npm run dev para visualizar.'"
+  },
+  "license": "UNLICENSED"
+}

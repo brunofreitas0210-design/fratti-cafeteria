@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fratti Cafeteria — Café Especial & Experiência Artesanal</title>
+  <meta name="description" content="Aplicativo da Fratti Cafeteria. Cafés especiais, ambiente aconchegante, cardápio digital com pedidos, monte seu café personalizado, reservas de mesas e clube de fidelidade.">
+  <meta name="theme-color" content="#1a0f09">
+
+  <!-- Fontes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css?v=2.0">
+</head>
+<body>
+
+  <!-- Canvas de partículas e vapor ambiente -->
+  <canvas id="ambientCanvas" class="ambient-canvas"></canvas>
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- ====== TOPO / BARRA SUPERIOR ====== -->
+  <header class="app-header">
+    <div class="header-container">
+      <!-- Logo da Fratti -->
+      <div class="header-brand" id="brandLogoBtn" role="button" tabindex="0">
+        <div class="brand-badge-icon">
+          <svg viewBox="0 0 40 40" class="coffee-logo-svg">
+            <path d="M10 14h20v10a8 8 0 0 1-8 8h-4a8 8 0 0 1-8-8V14z" fill="currentColor" fill-opacity="0.9"/>
+            <path d="M30 16h3a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3h-3" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M7 34h26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Ondas de vapor -->
+            <path d="M15 10c0-2 2-3 2-5" fill="none" stroke="#e89a3c" stroke-width="2" stroke-linecap="round" class="steam-wave-1"/>
+            <path d="M20 9c0-2 2-3 2-5" fill="none" stroke="#e89a3c" stroke-width="2" stroke-linecap="round" class="steam-wave-2"/>
+            <path d="M25 10c0-2 2-3 2-5" fill="none" stroke="#e89a3c" stroke-width="2" stroke-linecap="round" class="steam-wave-3"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">FRATTI</span>
+          <span class="brand-sub">CAFETERIA</span>
+        </div>
+      </div>
+
+      <!-- Status ao vivo da loja -->
+      <div class="live-status-pill">
+        <span class="status-dot pulsing"></span>
+        <span class="status-label">Aberto hoje até 20h</span>
+        <span class="status-prep">• Preparo 8-12 min</span>
+      </div>
+
+      <!-- Navegação para telas maiores (Desktop) -->
+      <nav class="desktop-nav" aria-label="Navegação Principal">
+        <button class="nav-tab-btn active" data-target="home">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Início
+        </button>
+        <button class="nav-tab-btn" data-target="menu">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Cardápio
+        </button>
+        <button class="nav-tab-btn" data-target="customizer">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          Monte Seu Café
+        </button>
+        <button class="nav-tab-btn" data-target="about">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          A Fratti
+        </button>
+        <button class="nav-tab-btn" data-target="space">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Espaço &amp; Mesas
+        </button>
+        <button class="nav-tab-btn" data-target="rewards">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Clube Fidelidade
+        </button>
+      </nav>
+
+      <!-- Ações rápidas do Header -->
+      <div class="header-actions">
+        <!-- Som ambiente toggle -->
+        <button class="icon-btn" id="audioToggleBtn" title="Ativar Som Ambiente da Cafeteria" aria-label="Som Ambiente">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="audio-icon-off">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+          <div class="audio-waves" style="display: none;">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </button>
+
+        <!-- Tema Claro / Escuro -->
+        <button class="icon-btn" id="themeToggleBtn" title="Alternar Modo Noturno/Diurno" aria-label="Alternar Tema">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="theme-icon-sun">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
+        <!-- Botão Carrinho -->
+        <button class="cart-trigger-btn" id="openCartBtn" aria-label="Ver Carrinho de Pedidos">
+          <div class="cart-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <span class="cart-count-badge" id="cartCountBadge">0</span>
+          </div>
+          <span class="cart-subtotal-header" id="cartHeaderTotal">R$ 0,00</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== CONTAINER PRINCIPAL DAS TELAS DO APLICATIVO ====== -->
+  <main class="app-main-viewport">
+
+    <!-- ============================================== -->
+    <!-- TELA 1: INÍCIO / BOAS-VINDAS & DESTAQUES       -->
+    <!-- ============================================== -->
+    <section class="app-screen active" id="screen-home" data-screen="home">
+      <!-- Hero Banner Imersivo com Nova Imagem -->
+      <div class="hero-card">
+        <div class="hero-image-backdrop">
+          <img src="img/hero_ambience.jpg" alt="Ambiente acolhedor da Fratti Cafeteria" class="hero-img-loaded" id="heroBgImg">
+          <div class="hero-overlay-gradient"></div>
+        </div>
+        <div class="hero-card-content">
+          <div class="welcome-greeting-badge">
+            <span class="greeting-icon">☕</span>
+            <span id="timeGreetingText">Bem-vindo à Fratti Cafeteria</span>
+          </div>
+          <h1 class="hero-main-title">
+            O aroma que acolhe,<br>
+            <span class="text-gradient-caramel">o sabor que desperta.</span>
+          </h1>
+          <p class="hero-description">
+            Cafés selecionados de microlotes premiados, preparados na hora com técnica artesanal, grãos 100% arábica e confeitaria de autor.
+          </p>
+
+          <!-- Ações Principais -->
+          <div class="hero-btn-row">
+            <button class="btn btn-primary glow-btn" data-switch-to="menu">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+              Fazer Pedido Agora
+            </button>
+            <button class="btn btn-outline" data-switch-to="customizer">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+              Laboratório: Monte Seu Café
+            </button>
+          </div>
+
+          <!-- Métricas Rápidas -->
+          <div class="hero-stats-row">
+            <div class="stat-item">
+              <span class="stat-number">4.9 ★</span>
+              <span class="stat-label">+1.800 avaliações</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Arábica Especial</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">08 min</span>
+              <span class="stat-label">Preparo médio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Acesso Rápido às Funcionalidades -->
+      <div class="quick-nav-cards">
+        <div class="quick-card interactive-hover" data-switch-to="menu">
+          <div class="quick-card-icon bg-coffee">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+          </div>
+          <div class="quick-card-info">
+            <h3>Cardápio Digital</h3>
+            <p>Cafés, bebidas geladas &amp; doces</p>
+          </div>
+          <span class="quick-card-arrow">→</span>
+        </div>
+
+        <div class="quick-card interactive-hover" data-switch-to="customizer">
+          <div class="quick-card-icon bg-amber">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+          </div>
+          <div class="quick-card-info">
+            <h3>Monte seu Café</h3>
+            <p>Escolha base, leite &amp; coberturas</p>
+          </div>
+          <span class="quick-card-arrow">→</span>
+        </div>
+
+        <div class="quick-card interactive-hover" data-switch-to="space">
+          <div class="quick-card-icon bg-forest">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="quick-card-info">
+            <h3>Reservas de Mesas</h3>
+            <p>Garanta seu lugar no salão ou jardim</p>
+          </div>
+          <span class="quick-card-arrow">→</span>
+        </div>
+
+        <div class="quick-card interactive-hover" data-switch-to="rewards">
+          <div class="quick-card-icon bg-gold">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="quick-card-info">
+            <h3>Roleta &amp; Fidelidade</h3>
+            <p>Gire para ganhar prêmios e cupons</p>
+          </div>
+          <span class="quick-card-arrow">→</span>
+        </div>
+      </div>
+
+      <!-- Destaques Mais Pedidos da Semana -->
+      <section class="section-block">
+        <div class="section-header-row">
+          <div>
+            <span class="badge-pill">Favoritos do Barista</span>
+            <h2 class="section-title">Mais pedidos da Fratti</h2>
+          </div>
+          <button class="btn-text-link" data-switch-to="menu">Ver cardápio completo →</button>
+        </div>
+
+        <div class="featured-carousel-grid">
+          <!-- Card 1: Cappuccino Italiano -->
+          <article class="featured-card tilt-effect" data-product-id="cappuccino-italiano">
+            <div class="card-img-wrap">
+              <img src="img/cappuccino_art.jpg" alt="Cappuccino Italiano Fratti" loading="lazy">
+              <span class="card-tag">Mais Vendido</span>
+              <button class="quick-add-btn" aria-label="Adicionar Cappuccino" data-id="cappuccino-italiano">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-rating">★★★★★ <span>(4.9)</span></div>
+              <h3 class="card-title">Cappuccino Italiano</h3>
+              <p class="card-desc">Espresso duplo, leite vaporizado aveludado e crema densa com latte art.</p>
+              <div class="card-footer">
+                <span class="card-price">R$ 12,90</span>
+                <button class="btn-sm-details" data-open-modal="cappuccino-italiano">Personalizar</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Iced Caramel Macchiato -->
+          <article class="featured-card tilt-effect" data-product-id="iced-caramel">
+            <div class="card-img-wrap">
+              <img src="img/iced_caramel.jpg" alt="Iced Caramel Macchiato" loading="lazy">
+              <span class="card-tag tag-amber">Gelado Especial</span>
+              <button class="quick-add-btn" aria-label="Adicionar Iced Caramel" data-id="iced-caramel">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-rating">★★★★★ <span>(5.0)</span></div>
+              <h3 class="card-title">Iced Caramel Macchiato</h3>
+              <p class="card-desc">Leite gelado batido, calda de caramelo salgado artesanal e shot duplo de espresso.</p>
+              <div class="card-footer">
+                <span class="card-price">R$ 15,90</span>
+                <button class="btn-sm-details" data-open-modal="iced-caramel">Personalizar</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Croissant Francês Manteiga -->
+          <article class="featured-card tilt-effect" data-product-id="croissant-frances">
+            <div class="card-img-wrap">
+              <img src="img/croissant.jpg" alt="Croissant Francês" loading="lazy">
+              <span class="card-tag tag-warm">Fornada do Dia</span>
+              <button class="quick-add-btn" aria-label="Adicionar Croissant" data-id="croissant-frances">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-rating">★★★★★ <span>(4.8)</span></div>
+              <h3 class="card-title">Croissant Francês</h3>
+              <p class="card-desc">Massa folhada fermentada lentamente com manteiga nobre, crocante e aerada.</p>
+              <div class="card-footer">
+                <span class="card-price">R$ 11,50</span>
+                <button class="btn-sm-details" data-open-modal="croissant-frances">Personalizar</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4: Banoffee Tradicional -->
+          <article class="featured-card tilt-effect" data-product-id="banoffee-pie">
+            <div class="card-img-wrap">
+              <img src="img/banoffee.jpg" alt="Torta Banoffee Artesanal" loading="lazy">
+              <span class="card-tag tag-sweet">Confeitaria</span>
+              <button class="quick-add-btn" aria-label="Adicionar Banoffee" data-id="banoffee-pie">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="card-rating">★★★★★ <span>(4.9)</span></div>
+              <h3 class="card-title">Torta Banoffee da Fratti</h3>
+              <p class="card-desc">Base de biscoito amanteigado, doce de leite cremoso, fatias de banana e chantilly fresco.</p>
+              <div class="card-footer">
+                <span class="card-price">R$ 15,50</span>
+                <button class="btn-sm-details" data-open-modal="banoffee-pie">Personalizar</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Banner Promocional com Contador Regressivo -->
+      <div class="promo-banner-card">
+        <div class="promo-content">
+          <span class="badge-pill badge-danger">Promoção do Dia</span>
+          <h2>Happy Hour do Barista Fratti</h2>
+          <p>Ganhe <strong>15% OFF</strong> em qualquer bebida especial utilizando o cupom no carrinho:</p>
+          <div class="coupon-copy-box">
+            <code id="couponHomeCode">FRATTI15</code>
+            <button class="btn-copy-coupon" id="copyCouponBtn">Copiar Cupom</button>
+          </div>
+        </div>
+        <div class="promo-countdown" id="promoCountdown">
+          <div class="countdown-unit"><span id="cdHours">03</span><label>horas</label></div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-unit"><span id="cdMinutes">45</span><label>minutos</label></div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-unit"><span id="cdSeconds">18</span><label>segundos</label></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- TELA 2: CARDÁPIO INTERATIVO & PEDIDOS          -->
+    <!-- ============================================== -->
+    <section class="app-screen" id="screen-menu" data-screen="menu">
+      <div class="screen-title-banner">
+        <div class="banner-text">
+          <span class="badge-pill">Cardápio Oficial</span>
+          <h1>Sabores preparados para encantar</h1>
+          <p>Selecione uma categoria, busque seu favorito ou personalize sua bebida do seu jeito.</p>
+        </div>
+        <div class="menu-search-wrapper">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="menuSearchInput" placeholder="Buscar no cardápio (ex: cappuccino, vegano, croissant)...">
+          <button class="clear-search-btn" id="clearSearchBtn" style="display:none;">✕</button>
+        </div>
+      </div>
+
+      <!-- Abas de Categorias do Cardápio com Ícones -->
+      <div class="category-tabs-row" id="categoryTabsRow">
+        <button class="cat-pill active" data-cat="all">
+          <span>☕</span> Todos
+        </button>
+        <button class="cat-pill" data-cat="quentes">
+          <span>🔥</span> Cafés Quentes
+        </button>
+        <button class="cat-pill" data-cat="gelados">
+          <span>🧊</span> Gelados &amp; Especiais
+        </button>
+        <button class="cat-pill" data-cat="salgados">
+          <span>🥐</span> Pães &amp; Salgados
+        </button>
+        <button class="cat-pill" data-cat="doces">
+          <span>🍰</span> Confeitaria &amp; Doces
+        </button>
+        <button class="cat-pill" data-cat="graos">
+          <span>📦</span> Grãos para Levar
+        </button>
+      </div>
+
+      <!-- Filtros Rápidos (Dieta / Preferência) -->
+      <div class="quick-filter-tags">
+        <span class="filter-label">Filtrar por:</span>
+        <button class="diet-tag" data-tag="sem-lactose">Sem Lactose</button>
+        <button class="diet-tag" data-tag="vegano">Vegano</button>
+        <button class="diet-tag" data-tag="sem-gluten">Sem Glúten</button>
+        <button class="diet-tag" data-tag="destaque">Destaques</button>
+      </div>
+
+      <!-- Grade de Produtos com Imagens Novas Dedicadas -->
+      <div class="menu-items-grid" id="menuItemsGrid">
+        <!-- Itens inseridos dinamicamente pelo JavaScript com suporte total e imagens locais -->
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- TELA 3: LABORATÓRIO "MONTE SEU CAFÉ"           -->
+    <!-- ============================================== -->
+    <section class="app-screen" id="screen-customizer" data-screen="customizer">
+      <div class="screen-title-banner">
+        <div class="banner-text">
+          <span class="badge-pill">Laboratório do Barista</span>
+          <h1>Monte o seu Café Exclusivo</h1>
+          <p>Crie sua própria combinação harmonizada com visualização dinâmica em tempo real.</p>
+        </div>
+      </div>
+
+      <div class="customizer-layout">
+        <!-- Visualizador Interativo da Xícara / Copo -->
+        <div class="cup-simulator-card">
+          <div class="cup-stage">
+            <!-- Vapor saindo do copo -->
+            <div class="simulator-steam-container">
+              <span class="steam-particle sp1"></span>
+              <span class="steam-particle sp2"></span>
+              <span class="steam-particle sp3"></span>
+            </div>
+
+            <!-- Copo transparente com camadas líquidas SVG -->
+            <div class="glass-cup-wrapper">
+              <div class="cup-liquid-container" id="cupLiquidContainer">
+                <div class="liquid-topping" id="liquidTopping"></div>
+                <div class="liquid-flavor" id="liquidFlavor"></div>
+                <div class="liquid-milk" id="liquidMilk"></div>
+                <div class="liquid-base" id="liquidBase"></div>
+              </div>
+              <div class="cup-glass-reflection"></div>
+              <div class="cup-rim"></div>
+              <div class="cup-handle"></div>
+            </div>
+          </div>
+
+          <div class="cup-summary-panel">
+            <h3 id="customCoffeeName">Meu Café Fratti</h3>
+            <div class="recipe-tags-list" id="recipeTagsList">
+              <span class="tag-pill">Espresso Duplo</span>
+              <span class="tag-pill">Leite Vaporizado</span>
+            </div>
+            <div class="custom-price-tag">
+              <span class="price-label">Valor total:</span>
+              <span class="price-val" id="customCoffeePrice">R$ 14,00</span>
+            </div>
+            <button class="btn btn-primary btn-full-width glow-btn" id="addCustomCoffeeBtn">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Adicionar Minha Criação ao Pedido
+            </button>
+          </div>
+        </div>
+
+        <!-- Painel de Etapas de Criação -->
+        <div class="customizer-steps-panel">
+          <!-- Passo 1: Escolha a Base -->
+          <div class="step-group">
+            <div class="step-header">
+              <span class="step-num">1</span>
+              <h4>Escolha a Base do Café</h4>
+            </div>
+            <div class="options-grid" id="baseOptions">
+              <button class="option-btn active" data-type="base" data-name="Espresso Duplo" data-price="7.00" data-color="#3c1e0e" data-height="35%">
+                <span class="opt-icon">☕</span>
+                <span class="opt-title">Espresso Duplo</span>
+                <span class="opt-desc">Intenso e aromático (60ml)</span>
+                <span class="opt-price">+ R$ 7,00</span>
+              </button>
+              <button class="option-btn" data-type="base" data-name="Filtrado Especial" data-price="8.50" data-color="#552f1b" data-height="45%">
+                <span class="opt-icon">💧</span>
+                <span class="opt-title">Filtrado Hario V60</span>
+                <span class="opt-desc">Floral e equilibrado (120ml)</span>
+                <span class="opt-price">+ R$ 8,50</span>
+              </button>
+              <button class="option-btn" data-type="base" data-name="Cold Brew Gelado" data-price="9.00" data-color="#24140b" data-height="40%">
+                <span class="opt-icon">🧊</span>
+                <span class="opt-title">Cold Brew</span>
+                <span class="opt-desc">Infusão a frio 18h com notas doces</span>
+                <span class="opt-price">+ R$ 9,00</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Passo 2: Escolha o Leite ou Bebida Vegetal -->
+          <div class="step-group">
+            <div class="step-header">
+              <span class="step-num">2</span>
+              <h4>Tipo de Leite ou Bebida</h4>
+            </div>
+            <div class="options-grid" id="milkOptions">
+              <button class="option-btn active" data-type="milk" data-name="Leite Integral Cremoso" data-price="4.00" data-color="#fdfbf7" data-height="35%">
+                <span class="opt-icon">🥛</span>
+                <span class="opt-title">Leite Integral</span>
+                <span class="opt-desc">Vaporizado a 65°C aveludado</span>
+                <span class="opt-price">+ R$ 4,00</span>
+              </button>
+              <button class="option-btn" data-type="milk" data-name="Leite de Aveia Barista" data-price="5.50" data-color="#f3ebd9" data-height="35%">
+                <span class="opt-icon">🌾</span>
+                <span class="opt-title">Leite de Aveia</span>
+                <span class="opt-desc">100% vegetal e muito cremoso</span>
+                <span class="opt-price">+ R$ 5,50</span>
+              </button>
+              <button class="option-btn" data-type="milk" data-name="Leite de Amêndoas" data-price="6.00" data-color="#eae0cc" data-height="35%">
+                <span class="opt-icon">🌰</span>
+                <span class="opt-title">Amêndoas Tostadas</span>
+                <span class="opt-desc">Leve sabor amendoado sutil</span>
+                <span class="opt-price">+ R$ 6,00</span>
+              </button>
+              <button class="option-btn" data-type="milk" data-name="Puro (Sem Leite)" data-price="0.00" data-color="transparent" data-height="0%">
+                <span class="opt-icon">🚫</span>
+                <span class="opt-title">Sem Leite</span>
+                <span class="opt-desc">Apenas a pureza do café</span>
+                <span class="opt-price">Grátis</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Passo 3: Escolha o Xarope Especial -->
+          <div class="step-group">
+            <div class="step-header">
+              <span class="step-num">3</span>
+              <h4>Xarope Artesanal Fratti</h4>
+            </div>
+            <div class="options-grid" id="flavorOptions">
+              <button class="option-btn active" data-type="flavor" data-name="Caramelo Salgado" data-price="3.00" data-color="#b66614">
+                <span class="opt-icon">🍯</span>
+                <span class="opt-title">Caramelo Salgado</span>
+                <span class="opt-desc">Com flor de sal e açúcar mascavo</span>
+                <span class="opt-price">+ R$ 3,00</span>
+              </button>
+              <button class="option-btn" data-type="flavor" data-name="Baunilha de Madagascar" data-price="3.00" data-color="#d9a74a">
+                <span class="opt-icon">🌼</span>
+                <span class="opt-title">Baunilha Nobre</span>
+                <span class="opt-desc">Feito com favas de baunilha</span>
+                <span class="opt-price">+ R$ 3,00</span>
+              </button>
+              <button class="option-btn" data-type="flavor" data-name="Avelã Tostada" data-price="3.50" data-color="#8c4b18">
+                <span class="opt-icon">🌰</span>
+                <span class="opt-title">Avelã Tostada</span>
+                <span class="opt-desc">Sabor acolhedor de nozes</span>
+                <span class="opt-price">+ R$ 3,50</span>
+              </button>
+              <button class="option-btn" data-type="flavor" data-name="Sem Xarope" data-price="0.00" data-color="transparent">
+                <span class="opt-icon">❌</span>
+                <span class="opt-title">Sem Xarope</span>
+                <span class="opt-desc">Doçura natural do grão</span>
+                <span class="opt-price">Grátis</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Passo 4: Toppings e Finalizações -->
+          <div class="step-group">
+            <div class="step-header">
+              <span class="step-num">4</span>
+              <h4>Finalização &amp; Toppings</h4>
+            </div>
+            <div class="options-grid" id="toppingOptions">
+              <button class="option-btn active" data-type="topping" data-name="Chantilly &amp; Canela" data-price="2.50" data-color="#ffffff">
+                <span class="opt-icon">🍦</span>
+                <span class="opt-title">Chantilly + Canela</span>
+                <span class="opt-desc">Feito na casa e canela do Ceilão</span>
+                <span class="opt-price">+ R$ 2,50</span>
+              </button>
+              <button class="option-btn" data-type="topping" data-name="Raspas de Chocolate Belga" data-price="3.00" data-color="#4a2511">
+                <span class="opt-icon">🍫</span>
+                <span class="opt-title">Raspas de Cacau 70%</span>
+                <span class="opt-desc">Chocolate belga amargo ralado</span>
+                <span class="opt-price">+ R$ 3,00</span>
+              </button>
+              <button class="option-btn" data-type="topping" data-name="Latte Art Clássica" data-price="0.00" data-color="transparent">
+                <span class="opt-icon">✨</span>
+                <span class="opt-title">Latte Art Desenho</span>
+                <span class="opt-desc">Desenho de coração ou tulipa</span>
+                <span class="opt-price">Grátis</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- TELA 4: A FRATTI (HISTÓRIA, BARISTAS & TOUR)   -->
+    <!-- ============================================== -->
+    <section class="app-screen" id="screen-about" data-screen="about">
+      <div class="about-hero-banner">
+        <img src="img/barista_story.jpg" alt="Barista da Fratti preparando café" class="about-hero-img">
+        <div class="about-hero-overlay"></div>
+        <div class="about-hero-text">
+          <span class="badge-pill">Nossa Essência</span>
+          <h1>Paixão de gerações por café especial</h1>
+          <p>Da fazenda ao balcão, conheça o cuidado em cada detalhe que faz a Fratti ser única.</p>
+        </div>
+      </div>
+
+      <!-- História e Origem com Imagens Novas -->
+      <div class="about-content-grid">
+        <div class="story-card">
+          <div class="story-img-wrap">
+            <img src="img/coffee_farm.jpg" alt="Colheita de café maduro na fazenda" loading="lazy">
+          </div>
+          <div class="story-body">
+            <span class="story-tag">Origem Nobre</span>
+            <h3>Colheita Seletiva &amp; Microlotes</h3>
+            <p>
+              Trabalhamos diretamente com pequenos produtores familiares do Cerrado Mineiro e da Mantiqueira de Minas. Apenas frutos maduros colhidos a mão, com pontuação acima de 86 pontos na escala SCA.
+            </p>
+          </div>
+        </div>
+
+        <div class="story-card">
+          <div class="story-img-wrap">
+            <img src="img/coffee_roast.jpg" alt="Torrefação artesanal de grãos de café" loading="lazy">
+          </div>
+          <div class="story-body">
+            <span class="story-tag">Artesanato</span>
+            <h3>Torra Fresca Semanal</h3>
+            <p>
+              Em nosso torrador com perfil controlado por software e maestria humana, desenvolvemos notas caramelizadas, acidez equilibrada e finalização aveludada. Seu café é torrado sempre fresco.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Métodos de Extração Explicados -->
+      <section class="methods-section">
+        <div class="section-header-center">
+          <span class="badge-pill">Alquimia do Café</span>
+          <h2>Nossos Métodos de Extração</h2>
+          <p>Descubra como o método transforma as notas e a sensação em boca da mesma semente.</p>
+        </div>
+
+        <div class="methods-cards-row">
+          <div class="method-box">
+            <div class="method-icon-circle">💧</div>
+            <h4>Hario V60</h4>
+            <p class="method-profile">Perfil: Floral, leve &amp; cítrico</p>
+            <p class="method-desc">Filtro cônico espiralado que destaca a acidez brilhante e as notas frutadas do café.</p>
+          </div>
+
+          <div class="method-box">
+            <div class="method-icon-circle">⏳</div>
+            <h4>Prensa Francesa</h4>
+            <p class="method-profile">Perfil: Encorpado &amp; aveludado</p>
+            <p class="method-desc">Infusão completa de 4 minutos que preserva os óleos essenciais para uma xícara densa e rica.</p>
+          </div>
+
+          <div class="method-box">
+            <div class="method-icon-circle">🚀</div>
+            <h4>Aeropress</h4>
+            <p class="method-profile">Perfil: Doce, limpo &amp; marcante</p>
+            <p class="method-desc">Extração sob pressão de ar suave, extraindo o melhor da doçura natural com baixíssimo amargor.</p>
+          </div>
+
+          <div class="method-box">
+            <div class="method-icon-circle">❄️</div>
+            <h4>Cold Brew 18h</h4>
+            <p class="method-profile">Perfil: Refrescante &amp; achocolatado</p>
+            <p class="method-desc">Gota a gota com água filtrada fria ao longo de 18 horas para uma bebida com 65% menos acidez.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Galeria de Fotos em Alta Resolução -->
+      <section class="gallery-section">
+        <div class="section-header-center">
+          <span class="badge-pill">Galeria Fratti</span>
+          <h2>Momentos &amp; Detalhes</h2>
+          <p>Clique em qualquer foto para visualizar os detalhes em tela cheia.</p>
+        </div>
+
+        <div class="gallery-photo-grid">
+          <div class="gallery-card-item lightbox-trigger" data-img="img/interior_main.jpg" data-caption="Salão principal com mesas em madeira nobre e clima aconchegante">
+            <img src="img/interior_main.jpg" alt="Salão da Fratti" loading="lazy">
+            <div class="gallery-hover-overlay">
+              <span class="zoom-icon">🔍</span>
+              <span>Salão Principal</span>
+            </div>
+          </div>
+
+          <div class="gallery-card-item lightbox-trigger" data-img="img/garden_terrace.jpg" data-caption="Jardim e varanda pet friendly iluminada pela luz do sol">
+            <img src="img/garden_terrace.jpg" alt="Jardim da Cafeteria" loading="lazy">
+            <div class="gallery-hover-overlay">
+              <span class="zoom-icon">🔍</span>
+              <span>Jardim &amp; Varanda</span>
+            </div>
+          </div>
+
+          <div class="gallery-card-item lightbox-trigger" data-img="img/workspace_corner.jpg" data-caption="Espaço coworking com Wi-Fi ultra veloz e tomadas individuais">
+            <img src="img/workspace_corner.jpg" alt="Espaço Coworking" loading="lazy">
+            <div class="gallery-hover-overlay">
+              <span class="zoom-icon">🔍</span>
+              <span>Espaço Coworking</span>
+            </div>
+          </div>
+
+          <div class="gallery-card-item lightbox-trigger" data-img="img/latte_art.jpg" data-caption="Arte em latte feita na hora com maestria pelos nossos baristas">
+            <img src="img/latte_art.jpg" alt="Arte no Café" loading="lazy">
+            <div class="gallery-hover-overlay">
+              <span class="zoom-icon">🔍</span>
+              <span>Latte Art Especial</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- TELA 5: ESPAÇO, RESERVAS & LOCALIZAÇÃO         -->
+    <!-- ============================================== -->
+    <section class="app-screen" id="screen-space" data-screen="space">
+      <div class="screen-title-banner">
+        <div class="banner-text">
+          <span class="badge-pill">Espaço &amp; Conforto</span>
+          <h1>Um refúgio para desacelerar</h1>
+          <p>Ambientes pensados para encontros, trabalho focado ou simplesmente saborear um bom livro com café.</p>
+        </div>
+      </div>
+
+      <!-- Indicador de Ocupação ao Vivo -->
+      <div class="live-occupancy-card">
+        <div class="occupancy-info">
+          <div class="occupancy-indicator">
+            <span class="pulse-ring"></span>
+            <span class="status-badge green">🟢 Movimento Tranquilo</span>
+          </div>
+          <h3>Lotação atual: 35%</h3>
+          <p>Há mesas livres no salão interno e na varanda neste momento. Venha nos visitar!</p>
+        </div>
+        <div class="amenities-pills">
+          <span class="amenity">⚡ Wi-Fi 500 Mbps</span>
+          <span class="amenity">🔌 Tomadas em todas as mesas</span>
+          <span class="amenity">🐾 Pet Friendly</span>
+          <span class="amenity">❄️ Ar-condicionado</span>
+          <span class="amenity">🚗 Convênio Estacionamento</span>
+        </div>
+      </div>
+
+      <!-- Seção com Formulário de Reserva Interativo -->
+      <div class="space-booking-grid">
+        <!-- Formulário de Agendamento -->
+        <div class="booking-card">
+          <div class="card-head">
+            <span class="badge-pill">Agendamento Online</span>
+            <h3>Reserve sua Mesa</h3>
+            <p>Garanta seu lugar sem filas de espera, seja para reuniões ou cafés a dois.</p>
+          </div>
+
+          <form id="reservationForm" class="booking-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="resName">Seu Nome Completo</label>
+                <input type="text" id="resName" required placeholder="Ex: Bruno Silva">
+              </div>
+              <div class="form-field">
+                <label for="resPhone">WhatsApp / Telefone</label>
+                <input type="tel" id="resPhone" required placeholder="(11) 99999-9999">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="resDate">Data Desejada</label>
+                <input type="date" id="resDate" required>
+              </div>
+              <div class="form-field">
+                <label for="resTime">Horário</label>
+                <select id="resTime" required>
+                  <option value="09:00">09:00 - Manhã Tranquila</option>
+                  <option value="10:30">10:30 - Brunch</option>
+                  <option value="14:00">14:00 - Tarde / Café</option>
+                  <option value="16:00" selected>16:00 - Tarde &amp; Doces</option>
+                  <option value="18:00">18:00 - Happy Hour</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="resGuests">Número de Pessoas</label>
+                <select id="resGuests" required>
+                  <option value="1">1 pessoa (foco / trabalho)</option>
+                  <option value="2" selected>2 pessoas</option>
+                  <option value="3-4">3 a 4 pessoas</option>
+                  <option value="5+">5 ou mais (mesa compartilhada)</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="resArea">Ambiente de Preferência</label>
+                <select id="resArea" required>
+                  <option value="Salão Interno Acolhedor">Salão Interno (Música suave &amp; ar)</option>
+                  <option value="Varanda &amp; Jardim Pet">Varanda &amp; Jardim ao Ar Livre</option>
+                  <option value="Espaço Coworking Silencioso">Espaço Coworking (Trabalho)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="resNotes">Observações Especiais (Opcional)</label>
+              <textarea id="resNotes" rows="2" placeholder="Ex: Aniversário, cadeira com tomada próxima, etc."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full-width glow-btn" id="submitResBtn">
+              Confirmar Reserva Instantânea
+            </button>
+            <div id="resFeedback" class="form-feedback" style="display:none;"></div>
+          </form>
+        </div>
+
+        <!-- Localização & Horários -->
+        <div class="location-card">
+          <div class="map-placeholder-box">
+            <div class="map-artistic">
+              <div class="map-pin-pulse">
+                <span class="pin-dot">📍</span>
+                <span class="pin-ring"></span>
+              </div>
+              <div class="map-road road-1"></div>
+              <div class="map-road road-2"></div>
+              <div class="map-label">FRATTI CAFETERIA • JARDINS</div>
+            </div>
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn-open-maps">
+              Abrir Rota no Google Maps ↗
+            </a>
+          </div>
+
+          <div class="location-details">
+            <div class="loc-item">
+              <span class="loc-icon">📍</span>
+              <div>
+                <strong>Endereço</strong>
+                <p>Alameda dos Cafés Especiais, 189 — Jardins, São Paulo - SP</p>
+              </div>
+            </div>
+
+            <div class="loc-item">
+              <span class="loc-icon">⏰</span>
+              <div>
+                <strong>Horários de Funcionamento</strong>
+                <p>Segunda a Sexta: 07h30 às 20h00<br>Sábados e Domingos: 08h30 às 21h00</p>
+              </div>
+            </div>
+
+            <div class="loc-item">
+              <span class="loc-icon">💬</span>
+              <div>
+                <strong>WhatsApp &amp; Contato</strong>
+                <p>+55 (11) 98765-4321 • contato@fratticafe.com.br</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- TELA 6: CLUBE FRATTI (FIDELIDADE & ROLETA)     -->
+    <!-- ============================================== -->
+    <section class="app-screen" id="screen-rewards" data-screen="rewards">
+      <div class="screen-title-banner">
+        <div class="banner-text">
+          <span class="badge-pill badge-gold">Clube Exclusivo</span>
+          <h1>Recompensas para quem ama café</h1>
+          <p>Acumule carimbos digitais, gire a Roleta Diária e ganhe cafés gratuitos e mimos da casa.</p>
+        </div>
+      </div>
+
+      <!-- Cartão Fidelidade Digital Interativo -->
+      <div class="loyalty-card-widget">
+        <div class="loyalty-header">
+          <div class="user-tier">
+            <span class="tier-badge">Membro Especial</span>
+            <h3>Cartão Fidelidade Fratti</h3>
+          </div>
+          <div class="loyalty-counter">
+            <span class="count-highlight" id="stampsCount">6</span> de 10 carimbos
+          </div>
+        </div>
+
+        <p class="loyalty-instruction">
+          A cada café consumido, você ganha 1 carimbo. Ao completar 10 carimbos, ganhe qualquer bebida especial do cardápio por nossa conta!
+        </p>
+
+        <!-- Grade de 10 Carimbos Digitais -->
+        <div class="stamps-grid" id="stampsGrid">
+          <div class="stamp-slot stamped"><span class="stamp-icon">☕</span><span class="stamp-num">1</span></div>
+          <div class="stamp-slot stamped"><span class="stamp-icon">☕</span><span class="stamp-num">2</span></div>
+          <div class="stamp-slot stamped"><span class="stamp-icon">☕</span><span class="stamp-num">3</span></div>
+          <div class="stamp-slot stamped"><span class="stamp-icon">☕</span><span class="stamp-num">4</span></div>
+          <div class="stamp-slot stamped"><span class="stamp-icon">☕</span><span class="stamp-num">5</span></div>
+          <div class="stamp-slot stamped"><span class="stamp-icon">☕</span><span class="stamp-num">6</span></div>
+          <div class="stamp-slot empty"><span class="stamp-icon">☕</span><span class="stamp-num">7</span></div>
+          <div class="stamp-slot empty"><span class="stamp-icon">☕</span><span class="stamp-num">8</span></div>
+          <div class="stamp-slot empty"><span class="stamp-icon">☕</span><span class="stamp-num">9</span></div>
+          <div class="stamp-slot prize-slot"><span class="stamp-icon">🎁</span><span class="stamp-num">10</span></div>
+        </div>
+
+        <div class="loyalty-actions-row">
+          <button class="btn btn-outline-gold" id="simulateStampBtn">
+            + Simular Novo Carimbo
+          </button>
+          <button class="btn btn-ghost-sm" id="resetStampsBtn">Reiniciar Cartão</button>
+        </div>
+      </div>
+
+      <!-- Roleta da Sorte Diária Gamificada -->
+      <div class="wheel-game-section">
+        <div class="wheel-info-col">
+          <span class="badge-pill badge-amber">Sorteio Diário</span>
+          <h2>Roleta da Sorte Fratti</h2>
+          <p>Você tem <strong>1 giro gratuito hoje</strong>! Teste a sua sorte para desbloquear cupons e mimos instantâneos que caem direto no seu carrinho.</p>
+
+          <div class="wheel-prizes-list">
+            <div class="prize-item"><span class="bullet">⭐</span> 10% OFF no Pedido</div>
+            <div class="prize-item"><span class="bullet">☕</span> Espresso Grátis</div>
+            <div class="prize-item"><span class="bullet">🥐</span> Pão de Queijo na Faixa</div>
+            <div class="prize-item"><span class="bullet">🍰</span> 15% OFF em Sobremesas</div>
+            <div class="prize-item"><span class="bullet">✨</span> 50 Pontos Extras</div>
+          </div>
+
+          <button class="btn btn-primary btn-large glow-btn" id="spinWheelBtn">
+            🎯 GIRAR A ROLETA AGORA
+          </button>
+          <div id="wheelResultBanner" class="wheel-result-banner" style="display:none;"></div>
+        </div>
+
+        <!-- Componente da Roleta Canvas / SVG -->
+        <div class="wheel-canvas-wrapper">
+          <div class="wheel-pointer">▼</div>
+          <canvas id="luckyWheelCanvas" width="360" height="360" class="lucky-wheel-canvas"></canvas>
+          <div class="wheel-center-cap">☕</div>
+        </div>
+      </div>
+
+      <!-- Meus Cupons Ativos -->
+      <section class="coupons-section">
+        <h3 class="section-subtitle">Seus Cupons de Desconto Disponíveis</h3>
+        <div class="coupons-row">
+          <div class="coupon-ticket">
+            <div class="ticket-left">
+              <span class="ticket-val">10%</span>
+              <span class="ticket-desc">DE DESCONTO</span>
+            </div>
+            <div class="ticket-right">
+              <h4>BEM-VINDO À FRATTI</h4>
+              <p>Válido para seu primeiro pedido online no app</p>
+              <div class="ticket-btn-row">
+                <code>FRATTI10</code>
+                <button class="apply-coupon-direct" data-code="FRATTI10">Aplicar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="coupon-ticket">
+            <div class="ticket-left">
+              <span class="ticket-val">R$ 5</span>
+              <span class="ticket-desc">OFF DIRETO</span>
+            </div>
+            <div class="ticket-right">
+              <h4>HORA DO CAFEZINHO</h4>
+              <p>Em pedidos acima de R$ 25 no cardápio</p>
+              <div class="ticket-btn-row">
+                <code>CAFEZINHO</code>
+                <button class="apply-coupon-direct" data-code="CAFEZINHO">Aplicar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+  </main>
+
+  <!-- ====== BARRA DE NAVEGAÇÃO INFERIOR ESTILO APLICATIVO (MOBILE) ====== -->
+  <nav class="bottom-app-bar" aria-label="Navegação do Aplicativo">
+    <button class="app-bar-item active" data-target="home">
+      <div class="bar-icon-wrap">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <span>Início</span>
+    </button>
+
+    <button class="app-bar-item" data-target="menu">
+      <div class="bar-icon-wrap">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+      </div>
+      <span>Cardápio</span>
+    </button>
+
+    <button class="app-bar-item center-highlight" data-target="customizer" title="Monte seu café">
+      <div class="bar-icon-center">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+      </div>
+      <span>Criar</span>
+    </button>
+
+    <button class="app-bar-item" data-target="space">
+      <div class="bar-icon-wrap">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <span>Mesas</span>
+    </button>
+
+    <button class="app-bar-item" data-target="rewards">
+      <div class="bar-icon-wrap">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <span>Clube</span>
+    </button>
+  </nav>
+
+  <!-- ====== GAVETA LATERAL DO CARRINHO & CHECKOUT ====== -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Carrinho de Compras">
+    <div class="drawer-header">
+      <div class="drawer-title-row">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <h3>Seu Pedido Fratti</h3>
+      </div>
+      <button class="close-drawer-btn" id="closeCartBtn" aria-label="Fechar Carrinho">✕</button>
+    </div>
+
+    <!-- Lista de Itens do Pedido -->
+    <div class="drawer-items-list" id="cartItemsList">
+      <div class="empty-cart-view" id="emptyCartView">
+        <div class="empty-icon">☕</div>
+        <h4>Sua xícara está vazia</h4>
+        <p>Explore nosso cardápio ou crie seu café personalizado para começar.</p>
+        <button class="btn btn-primary" data-switch-to="menu">Explorar Cardápio</button>
+      </div>
+    </div>
+
+    <!-- Resumo e Opções de Fechamento -->
+    <div class="drawer-footer" id="cartDrawerFooter" style="display:none;">
+      <!-- Seletor de Tipo de Pedido -->
+      <div class="order-type-picker">
+        <label class="type-radio">
+          <input type="radio" name="orderType" value="balcao" checked>
+          <span>Retirada Balcão</span>
+        </label>
+        <label class="type-radio">
+          <input type="radio" name="orderType" value="mesa">
+          <span>Consumir na Mesa</span>
+        </label>
+      </div>
+      <div class="table-number-input-row" id="tableNumRow" style="display:none;">
+        <label for="tableNumberInput">Número da Mesa:</label>
+        <input type="number" id="tableNumberInput" min="1" max="50" placeholder="Ex: 07">
+      </div>
+
+      <!-- Cupom de Desconto -->
+      <div class="drawer-coupon-row">
+        <input type="text" id="cartCouponInput" placeholder="Código do Cupom">
+        <button class="btn-apply-code" id="applyCartCouponBtn">Aplicar</button>
+      </div>
+      <div id="couponAppliedMsg" class="coupon-msg" style="display:none;"></div>
+
+      <!-- Subtotal, Desconto e Total -->
+      <div class="cost-breakdown">
+        <div class="cost-line">
+          <span>Subtotal</span>
+          <span id="cartSubtotalText">R$ 0,00</span>
+        </div>
+        <div class="cost-line discount-line" id="discountLine" style="display:none;">
+          <span>Desconto</span>
+          <span id="cartDiscountText">- R$ 0,00</span>
+        </div>
+        <div class="cost-line total-line">
+          <span>Total a Pagar</span>
+          <span id="cartTotalText">R$ 0,00</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full-width glow-btn checkout-btn" id="startCheckoutBtn">
+        Finalizar Pedido • <span id="btnPayAmount">R$ 0,00</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ====== MODAL DE DETALHES & PERSONALIZAÇÃO DO PRODUTO ====== -->
+  <div class="modal-backdrop" id="productModalBackdrop">
+    <div class="product-modal-dialog">
+      <button class="modal-close-btn" id="closeProductModalBtn">✕</button>
+
+      <div class="modal-img-container">
+        <img src="" alt="" id="modalProductImg">
+        <span class="modal-badge-tag" id="modalProductTag">Especial</span>
+      </div>
+
+      <div class="modal-body-content">
+        <div class="modal-title-row">
+          <h3 id="modalProductTitle">Nome do Café</h3>
+          <span class="modal-price" id="modalProductPrice">R$ 0,00</span>
+        </div>
+        <p class="modal-desc" id="modalProductDesc">Descrição do produto.</p>
+
+        <!-- Personalizações (Tamanho, Leite, Extras) -->
+        <div class="modal-customizations" id="modalCustomizationsArea">
+          <div class="custom-group">
+            <label class="custom-title">Tamanho da Xícara:</label>
+            <div class="size-selector-row">
+              <button class="size-btn active" data-size="P (200ml)" data-multiplier="1.0">Pequeno (200ml)</button>
+              <button class="size-btn" data-size="M (350ml)" data-multiplier="1.25">Médio (350ml)</button>
+              <button class="size-btn" data-size="G (450ml)" data-multiplier="1.45">Grande (450ml)</button>
+            </div>
+          </div>
+
+          <div class="custom-group">
+            <label class="custom-title">Opção de Leite:</label>
+            <select id="modalMilkSelect" class="form-select-sm">
+              <option value="Padronizado da Casa">Padronizado da Receita</option>
+              <option value="Leite sem Lactose (+R$ 1,50)">Sem Lactose (+ R$ 1,50)</option>
+              <option value="Leite de Aveia Barista (+R$ 3,00)">Leite de Aveia Barista (+ R$ 3,00)</option>
+              <option value="Leite de Amêndoas (+R$ 3,50)">Leite de Amêndoas (+ R$ 3,50)</option>
+            </select>
+          </div>
+
+          <div class="custom-group">
+            <label class="custom-title">Complementos do Barista:</label>
+            <div class="checkbox-extras-grid">
+              <label class="extra-check"><input type="checkbox" data-extra="Shot Extra Espresso" data-price="4.00"> Shot extra de espresso (+R$ 4)</label>
+              <label class="extra-check"><input type="checkbox" data-extra="Chantilly Artesanal" data-price="2.50"> Chantilly artesanal (+R$ 2,50)</label>
+              <label class="extra-check"><input type="checkbox" data-extra="Calda de Caramelo Salgado" data-price="2.00"> Calda de caramelo salgado (+R$ 2)</label>
+              <label class="extra-check"><input type="checkbox" data-extra="Polvilhado de Canela" data-price="0.00"> Canela em pó (Grátis)</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer-row">
+          <div class="qty-stepper">
+            <button class="qty-btn" id="modalQtyMinus">-</button>
+            <span class="qty-display" id="modalQtyValue">1</span>
+            <button class="qty-btn" id="modalQtyPlus">+</button>
+          </div>
+          <button class="btn btn-primary glow-btn flex-grow" id="modalAddToCartBtn">
+            Adicionar ao Pedido • <span id="modalAddTotalBtn">R$ 0,00</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== MODAL DE CHECKOUT & ACOMPANHAMENTO DO PEDIDO AO VIVO ====== -->
+  <div class="modal-backdrop" id="checkoutModalBackdrop">
+    <div class="checkout-modal-dialog">
+      <button class="modal-close-btn" id="closeCheckoutModalBtn">✕</button>
+
+      <!-- Etapa 1: Escolha do Pagamento -->
+      <div id="checkoutStepPayment" class="checkout-step-view active">
+        <div class="step-head">
+          <span class="badge-pill">Pagamento Seguro</span>
+          <h3>Como deseja pagar?</h3>
+          <p>Total do seu pedido: <strong id="checkoutSummaryTotal">R$ 0,00</strong></p>
+        </div>
+
+        <div class="payment-options-grid">
+          <button class="payment-opt-btn active" data-method="pix">
+            <span class="pay-icon">⚡</span>
+            <strong>PIX Instantâneo</strong>
+            <span>Aprovação na hora</span>
+          </button>
+          <button class="payment-opt-btn" data-method="cartao">
+            <span class="pay-icon">💳</span>
+            <strong>Cartão de Crédito / Débito</strong>
+            <span>Pagar pelo app ou na máquina</span>
+          </button>
+          <button class="payment-opt-btn" data-method="balcao">
+            <span class="pay-icon">💵</span>
+            <strong>Pagar no Balcão</strong>
+            <span>Dinheiro ou Cartão</span>
+          </button>
+        </div>
+
+        <div class="pix-area" id="pixPaymentArea">
+          <div class="qr-code-box">
+            <!-- QR code estilizado em SVG -->
+            <svg viewBox="0 0 100 100" class="qr-svg-sim">
+              <rect x="0" y="0" width="100" height="100" fill="#ffffff" rx="8"/>
+              <rect x="10" y="10" width="25" height="25" fill="#180e08"/>
+              <rect x="15" y="15" width="15" height="15" fill="#ffffff"/>
+              <rect x="18" y="18" width="9" height="9" fill="#180e08"/>
+              <rect x="65" y="10" width="25" height="25" fill="#180e08"/>
+              <rect x="70" y="15" width="15" height="15" fill="#ffffff"/>
+              <rect x="73" y="18" width="9" height="9" fill="#180e08"/>
+              <rect x="10" y="65" width="25" height="25" fill="#180e08"/>
+              <rect x="15" y="70" width="15" height="15" fill="#ffffff"/>
+              <rect x="18" y="73" width="9" height="9" fill="#180e08"/>
+              <!-- Padrão PIX -->
+              <rect x="42" y="15" width="8" height="8" fill="#180e08"/>
+              <rect x="52" y="25" width="6" height="12" fill="#180e08"/>
+              <rect x="42" y="42" width="16" height="16" fill="#e89a3c"/>
+              <rect x="65" y="45" width="10" height="8" fill="#180e08"/>
+              <rect x="42" y="65" width="10" height="10" fill="#180e08"/>
+              <rect x="65" y="70" width="18" height="12" fill="#180e08"/>
+              <circle cx="50" cy="50" r="4" fill="#ffffff"/>
+            </svg>
+          </div>
+          <p class="pix-instructions">Escaneie o QR Code no app do seu banco ou copie a chave PIX abaixo:</p>
+          <div class="pix-key-row">
+            <input type="text" readonly value="00020126360014BR.GOV.BCB.PIX0114+55119876543215204000053039865802BR5920FRATTI CAFETERIA6009SAO PAULO" id="pixCodeCopyInput">
+            <button class="btn-copy-pix" id="copyPixKeyBtn">Copiar Código PIX</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full-width glow-btn" id="confirmPaymentBtn">
+          Simular Confirmação do Pagamento →
+        </button>
+      </div>
+
+      <!-- Etapa 2: Acompanhamento em Tempo Real do Pedido -->
+      <div id="checkoutStepTracker" class="checkout-step-view" style="display:none;">
+        <div class="tracker-header">
+          <div class="order-id-badge">Pedido #FRT-<span id="liveOrderId">4092</span></div>
+          <h2>Acompanhe o Preparo</h2>
+          <p id="trackerStatusSub">O barista já começou a cuidar do seu café!</p>
+        </div>
+
+        <!-- Barra de Progresso Visual Animada -->
+        <div class="tracker-stepper">
+          <div class="step-line-progress" id="stepLineProgress"></div>
+
+          <div class="track-step active" id="trackStep1">
+            <div class="track-icon">✓</div>
+            <span class="track-title">Confirmado</span>
+            <span class="track-time">Agora</span>
+          </div>
+
+          <div class="track-step" id="trackStep2">
+            <div class="track-icon">⚙️</div>
+            <span class="track-title">Moendo Grãos</span>
+            <span class="track-time">Em 2 min</span>
+          </div>
+
+          <div class="track-step" id="trackStep3">
+            <div class="track-icon">☕</div>
+            <span class="track-title">Extraindo</span>
+            <span class="track-time">Em 5 min</span>
+          </div>
+
+          <div class="track-step" id="trackStep4">
+            <div class="track-icon">🎉</div>
+            <span class="track-title">Pronto!</span>
+            <span class="track-time">No Balcão</span>
+          </div>
+        </div>
+
+        <!-- Card de Animação do Barista -->
+        <div class="tracker-animation-box">
+          <div class="coffee-cup-animated-loader">
+            <div class="loader-steam-puff"></div>
+            <div class="loader-cup-body">
+              <div class="loader-coffee-fill" id="loaderCoffeeFill"></div>
+            </div>
+          </div>
+          <p class="loader-live-text" id="loaderLiveText">Recebido na máquina de espresso Fratti...</p>
+        </div>
+
+        <button class="btn btn-primary btn-full-width" id="finishTrackerBtn">
+          Entendi, voltar ao Aplicativo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== LIGHTBOX PARA GALERIA DE FOTOS ====== -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <button class="lightbox-close" id="lightboxCloseBtn">✕</button>
+    <div class="lightbox-content">
+      <img src="" alt="" id="lightboxImg">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
+  <!-- ====== TOAST NOTIFICATION CONTAINER ====== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts do Aplicativo -->
+  <script src="js/main.js?v=2.0"></script>
+</body>
+</html>
